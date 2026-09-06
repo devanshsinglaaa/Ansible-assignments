@@ -18,12 +18,16 @@ jobs:
       - name: Install AWS SDK
         run: |
           sudo apt update
-          sudo apt install python3-boto3 python3-botocore -y
+          ansible --version
+          python -m pip install boto3 botocore
+
+      - name: Test boto3
+        run: |
+          /opt/pipx/venvs/ansible-core/bin/python -c "import boto3, botocore; print('boto3 and botocore OK')"
 
       - name: Install unzip
         run: |
           sudo apt-get install unzip -y
-
 
       - name: Check AWS CLI / Install AWS CLI.
         run: |
