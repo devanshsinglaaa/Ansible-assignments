@@ -55,4 +55,4 @@ jobs:
   #   steps:
       - name: Test dynamic inventory
         run: |
-          ansible-inventory -i aws_ec2.yaml --graph
+          ansible-inventory -i assignment3/inventory/aws_ec2.yml --graph
