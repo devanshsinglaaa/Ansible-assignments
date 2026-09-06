@@ -2,6 +2,7 @@ name: CI/CD assignment 3 dynamic inventories.
 on:
   push:
     branches: [final_fix]
+  workflow_dispatch:
 
 jobs:
   setup:
