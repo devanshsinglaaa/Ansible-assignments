@@ -15,11 +15,15 @@ jobs:
         run: |
           ansible-galaxy collection install amazon.aws
 
+      # - name: Install AWS SDK
+      #   run: |
+      #     sudo apt update
+      #     ansible --version
+      #     python -m pip install boto3 botocore
+
       - name: Install AWS SDK
         run: |
-          sudo apt update
-          ansible --version
-          python -m pip install boto3 botocore
+          pipx inject ansible-core boto3 botocore
 
       - name: Test boto3
         run: |
