@@ -5,9 +5,12 @@ on:
   workflow_dispatch:
 
 jobs:
-  setup:
+  set-up-test:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Install amazon.aws using ansible-galaxy collection.
         run: |
           ansible-galaxy collection install amazon.aws
@@ -33,17 +36,23 @@ jobs:
             sudo ./aws/install
           fi
 
+      - name: Configure AWS credentials
+        run: |
+          aws configure set aws_access_key_id "${{ secrets.AWS_ACCESS_KEY_ID }}"
+          aws configure set aws_secret_access_key "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+          aws configure set region us-west-2
+
       - name: Configure SSH key
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/test-node-1-key.pem
           chmod 600 ~/.ssh/test-node-1-key.pem
 
-  test:
-    needs: setup
-    runs-on: ubuntu-latest
+  # test:
+  #   needs: setup
+  #   runs-on: ubuntu-latest
 
-    steps:
+  #   steps:
       - name: Test dynamic inventory
         run: |
           ansible-inventory -i aws_ec2.yaml --graph
